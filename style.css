@@ -111,3 +111,8 @@ body{
     width: 26px;
     height: 26px;
 }
+
+.escondido{
+    display: none;
+}
+

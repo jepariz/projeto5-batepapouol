@@ -5,7 +5,7 @@ let mensagens = [];
 
 
 function entrarNaSala (){
-    nomeUsuario = prompt("Para entrar na sala, digite o seu nome");
+   nomeUsuario = prompt("Por favor, digite o seu nome");
 
     const nome = {
         name: nomeUsuario 
@@ -14,15 +14,14 @@ function entrarNaSala (){
     const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants ', nome);
     promessa.then(renderizarMensagens);
     promessa.catch(pedirNomeNovamente);
-
 }
 entrarNaSala();
 
 
 function pedirNomeNovamente (erro){
     if(erro.response.status === 409){
-        alert("Esse nome já está sendo usado, por favor, escolha outro nome!");
-        nomeUsuario = prompt("Para entrar na sala, digite o seu nome");
+        alert("Esse nome já está em uso, por favor, digite outro nome!");
+        nomeUsuario = prompt("Digite o novo nome");
     }
  }
 
@@ -148,4 +147,3 @@ document.addEventListener("keypress", function(e) {
     }
   });
 
-  
