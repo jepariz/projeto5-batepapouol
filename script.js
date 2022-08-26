@@ -1,8 +1,5 @@
 let nomeUsuario;
 let caixaBatePapo;
-let ultimaMsg;
-let elementoUltimaMsg;
-let tempoUltimaMsg;
 
 let mensagens = [];
 
@@ -138,3 +135,17 @@ function tratarErro(erro){
         window.location.reload();
     }
 }
+
+//enviar msg com enter
+
+document.addEventListener("keypress", function(e) {
+    if(e.key === 'Enter') {
+    
+        let btn = document.querySelector(".footer img");
+      
+      btn.click();
+    
+    }
+  });
+
+  
