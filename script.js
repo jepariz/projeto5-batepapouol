@@ -1,5 +1,8 @@
 let nomeUsuario;
 let caixaBatePapo;
+let ultimaMsg;
+let elementoUltimaMsg;
+let tempoUltimaMsg;
 
 let mensagens = [];
 
@@ -13,16 +16,18 @@ function entrarNaSala (){
 
     const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants ', nome);
     promessa.then(renderizarMensagens);
-
-    //promessa.catch(pedirNomeNovamente);
+    promessa.catch(pedirNomeNovamente);
 
 }
 entrarNaSala();
 
 
-// function pedirNomeNovamente (){
-//     nomeUsuario = prompt("Para entrar na sala, digite o seu nome");
-// }
+function pedirNomeNovamente (erro){
+    if(erro.response.status === 409){
+        alert("Esse nome já está sendo usado, por favor, escolha outro nome!");
+        nomeUsuario = prompt("Para entrar na sala, digite o seu nome");
+    }
+ }
 
 function carregarMensagens(){
     const promessa = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
@@ -33,24 +38,23 @@ carregarMensagens();
 
 function mensagensChegaram(mensagem){
     mensagens = mensagem.data;
+    renderizarMensagens();
+    
 }
 
-
-
 function atualizarChat(){
-    mensagens = [];
     setInterval(carregarMensagens, 3000);
-    setInterval(mensagensChegaram, 3000);
-    setInterval(renderizarMensagens, 3000);
+   
 }
 
 atualizarChat();
 
-
-
 function renderizarMensagens(){
 
     caixaBatePapo = document.querySelector(".mensagens");
+   
+
+    caixaBatePapo.innerHTML = "";
 
     for(i = 0; i < mensagens.length; i++){
        
@@ -79,7 +83,7 @@ function renderizarMensagens(){
             
             `
         }
-         if (mensagens[i].type === "private_message"){
+         if (mensagens[i].type === "private_message" && mensagens[i].to === nomeUsuario){
             caixaBatePapo.innerHTML += `
             <div class="caixa-msg reservada">
                 <p class="mensagem">
@@ -94,11 +98,10 @@ function renderizarMensagens(){
             `
         }
     }
+
+    let ultimaFilha = document.querySelector(".mensagens").lastElementChild;
+    ultimaFilha.scrollIntoView();
 }
-
-renderizarMensagens();
-
-
 
 function atualizarStatus (){
 
@@ -106,7 +109,9 @@ function atualizarStatus (){
         name: nomeUsuario
     }
 
-    axios.post('https://mock-api.driven.com.br/api/v6/uol/status', nome)
+    const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', nome);
+    promessa.catch(tratarErro);
+
 }
 
 setInterval(atualizarStatus, 5000);
@@ -124,5 +129,12 @@ function enviarMsg(){
 
     const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', msg);
     promessa.then(carregarMensagens);
+    promessa.catch(tratarErro);
+   
+}
 
+function tratarErro(erro){
+    if(erro.response.status === 400){
+        window.location.reload();
+    }
 }

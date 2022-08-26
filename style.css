@@ -51,6 +51,7 @@ body{
     box-sizing: border-box;
     padding: 15px;
     margin-bottom: 5px;
+    word-wrap: break-word;
 }
 
 .caixa-msg p{
@@ -90,9 +91,8 @@ body{
     align-items: center;
     padding: 10px;
     box-sizing: border-box;
-    margin-bottom: 20px;
     position: fixed;
-    bottom: -20px;
+    bottom: 0;
 }
 
 .escrever-msg{
