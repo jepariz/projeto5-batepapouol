@@ -20,10 +20,8 @@ entrarNaSala();
 
 function pedirNomeNovamente (erro){
     while(erro.response.status === 400){
-        !carregarMensagens();
         alert("Esse nome já está em uso, por favor, digite outro nome!");
         nomeUsuario = prompt("Digite o novo nome");
-       
     }
  }
 
