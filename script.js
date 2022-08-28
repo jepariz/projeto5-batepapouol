@@ -19,11 +19,11 @@ entrarNaSala();
 
 
 function pedirNomeNovamente (erro){
-    console.log(erro.data);
-    if(erro.response.status === 400){
-        window.location.reload();
+    while(erro.response.status === 400){
+        !carregarMensagens();
         alert("Esse nome já está em uso, por favor, digite outro nome!");
         nomeUsuario = prompt("Digite o novo nome");
+       
     }
  }
 
